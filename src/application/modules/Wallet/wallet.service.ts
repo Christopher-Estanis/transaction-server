@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { randomUUID } from 'crypto'
-import { PrismaService } from 'src/prisma.service'
-
-import { CreateWalletDTO } from './DTOs/createWallet.dto'
+import { CreateWalletDTO } from 'src/application/DTOs/createWallet.dto'
+import { PrismaService } from 'src/infra/prisma.service'
 
 @Injectable()
 export class WalletService {
