@@ -1,20 +1,28 @@
 import { Injectable } from '@nestjs/common'
 import { randomUUID } from 'crypto'
-import { CreateWalletDTO } from 'src/application/DTOs/createWallet.dto'
-import { PrismaService } from 'src/infra/prisma.service'
+
+import { CreateWalletDTO } from '../../DTOs/CreateWallet.dto'
+import { Wallet } from '../../entities/Wallet/Wallet'
+import { WalletRepository } from '../../repositories/WalletRepository'
 
 @Injectable()
 export class WalletService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly walletRepository: WalletRepository) {}
 
   async list() {
-    return await this.prismaService.wallet.findMany()
+    return await this.walletRepository.findMany()
   }
 
   async create(createWalletDTO: CreateWalletDTO) {
-    createWalletDTO.id = randomUUID()
-    return await this.prismaService.wallet.create({
-      data: createWalletDTO,
+    const wallet = new Wallet({
+      id: randomUUID(),
+      balance: createWalletDTO.balance,
+      cpf: createWalletDTO.cpf,
+      email: createWalletDTO.email,
+      fullName: createWalletDTO.fullName,
+      password: createWalletDTO.password,
+      type: createWalletDTO.type,
     })
+    await this.walletRepository.create(wallet)
   }
 }

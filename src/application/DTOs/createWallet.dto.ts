@@ -12,7 +12,7 @@ import {
 import { WalletTypeEnum } from '../entities/Wallet/WalletTypeEnum'
 
 export class CreateWalletDTO {
-  id: string
+  id?: string
 
   @IsNotEmpty()
   @IsEmail()
