@@ -9,7 +9,7 @@ import {
   Length,
 } from 'class-validator'
 
-import { WalletTypeEnum } from '../enums/WalletTypeEnum'
+import { WalletTypeEnum } from '../entities/Wallet/WalletTypeEnum'
 
 export class CreateWalletDTO {
   id: string
