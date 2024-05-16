@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { randomUUID } from 'crypto'
 
-import { CreateWalletDTO } from '../../DTOs/CreateWallet.dto'
-import { Wallet } from '../../entities/Wallet/Wallet'
-import { WalletRepository } from '../../repositories/WalletRepository'
+import { Wallet, WalletProps } from '../entities/Wallet/Wallet'
+import { WalletRepository } from '../repositories/WalletRepository'
 
 @Injectable()
 export class WalletService {
@@ -13,9 +11,8 @@ export class WalletService {
     return await this.walletRepository.findMany()
   }
 
-  async create(createWalletDTO: CreateWalletDTO) {
+  async create(createWalletDTO: WalletProps) {
     const wallet = new Wallet({
-      id: randomUUID(),
       balance: createWalletDTO.balance,
       cpf: createWalletDTO.cpf,
       email: createWalletDTO.email,
@@ -24,5 +21,7 @@ export class WalletService {
       type: createWalletDTO.type,
     })
     await this.walletRepository.create(wallet)
+
+    return wallet
   }
 }

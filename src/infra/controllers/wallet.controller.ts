@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common'
 
-import { CreateWalletDTO } from '../../DTOs/CreateWallet.dto'
-import { WalletService } from './wallet.service'
+import { WalletService } from '../../application/services/wallet.service'
+import { CreateWalletDTO } from '../DTOs/createWallet.dto'
 
 @Controller('wallet')
 export class WalletController {
@@ -14,6 +14,7 @@ export class WalletController {
 
   @Post()
   async create(@Body() body: CreateWalletDTO) {
-    return this.walletService.create(body)
+    const wallet = this.walletService.create(body)
+    return wallet
   }
 }

@@ -1,5 +1,6 @@
+import { randomUUID } from 'crypto'
+
 export interface WalletProps {
-  id: string
   email: string
   cpf: string
   fullName: string
@@ -9,18 +10,20 @@ export interface WalletProps {
 }
 
 export class Wallet {
+  private _id: string
   private readonly props: WalletProps
 
   constructor(props: WalletProps) {
+    this._id = randomUUID()
     this.props = props
   }
 
   get id() {
-    return this.props.id
+    return this._id
   }
 
   set id(id: string) {
-    this.props.id = id
+    this._id = id
   }
 
   get email() {

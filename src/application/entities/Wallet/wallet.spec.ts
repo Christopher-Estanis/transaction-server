@@ -3,7 +3,6 @@ import { Wallet, WalletProps } from './Wallet'
 describe('Wallet', () => {
   let wallet: Wallet
   const walletProps: WalletProps = {
-    id: '1',
     email: 'test@example.com',
     cpf: '123.456.789-00',
     fullName: 'Test User',

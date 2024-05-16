@@ -1,6 +1,5 @@
-import { InMemoryWalletRepository } from '../../../../test/respositories/InMemoryWalletRepository'
-import { CreateWalletDTO } from '../../DTOs/CreateWallet.dto'
-import { Wallet } from '../../entities/Wallet/Wallet'
+import { InMemoryWalletRepository } from '../../../test/respositories/InMemoryWalletRepository'
+import { Wallet, WalletProps } from '../entities/Wallet/Wallet'
 import { WalletService } from './wallet.service'
 
 describe('WalletService', () => {
@@ -21,7 +20,6 @@ describe('WalletService', () => {
     it('should return an array of wallets when wallets exist', async () => {
       const walletData: Array<Wallet> = [
         new Wallet({
-          id: '1',
           balance: 100,
           cpf: '12345678900',
           email: 'test@example.com',
@@ -30,7 +28,6 @@ describe('WalletService', () => {
           type: 1,
         }),
         new Wallet({
-          id: '2',
           balance: 200,
           cpf: '98765432100',
           email: 'test2@example.com',
@@ -48,7 +45,7 @@ describe('WalletService', () => {
 
   describe('create', () => {
     it('should create a wallet', async () => {
-      const createWalletDTO: CreateWalletDTO = {
+      const createWalletDTO: WalletProps = {
         balance: 100,
         cpf: '12345678900',
         email: 'test@example.com',
