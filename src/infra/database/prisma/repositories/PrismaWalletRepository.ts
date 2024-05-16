@@ -6,6 +6,7 @@ export class PrismaWalletRepository implements WalletRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(wallet: Wallet): Promise<void> {
+    console.log({ prisma: this.prismaService })
     await this.prismaService.wallet.create({
       data: {
         id: wallet.id,
@@ -20,6 +21,7 @@ export class PrismaWalletRepository implements WalletRepository {
   }
 
   async findMany(): Promise<Array<Wallet>> {
+    console.log({ prisma: this.prismaService })
     const wallets = await this.prismaService.wallet.findMany()
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error

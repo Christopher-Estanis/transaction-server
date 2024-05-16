@@ -14,7 +14,7 @@ export class WalletController {
 
   @Post()
   async create(@Body() body: CreateWalletDTO) {
-    const wallet = this.walletService.create(body)
+    const wallet = await this.walletService.create(body)
     return wallet
   }
 }
