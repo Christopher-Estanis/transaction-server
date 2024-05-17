@@ -63,5 +63,45 @@ describe('WalletService', () => {
       expect(wallets[0].password).toBe(createWalletDTO.password)
       expect(wallets[0].type).toBe(createWalletDTO.type)
     })
+
+    it('should throw an error if email already exists', async () => {
+      const createWalletDTO: WalletProps = {
+        balance: 100,
+        cpf: '12345678900',
+        email: 'test@example.com',
+        fullName: 'John Doe',
+        password: 'password123',
+        type: 1,
+      }
+      await walletService.create(createWalletDTO)
+
+      await expect(walletService.create(createWalletDTO)).rejects.toThrow(
+        'Email aready exists!',
+      )
+    })
+
+    it('should throw an error if CPF already exists', async () => {
+      const createWalletDTO1: WalletProps = {
+        balance: 100,
+        cpf: '12345678900',
+        email: 'test1@example.com',
+        fullName: 'John Doe',
+        password: 'password123',
+        type: 1,
+      }
+      const createWalletDTO2: WalletProps = {
+        balance: 100,
+        cpf: '12345678900',
+        email: 'test2@example.com',
+        fullName: 'Jane Doe',
+        password: 'password123',
+        type: 1,
+      }
+      await walletService.create(createWalletDTO1)
+
+      await expect(walletService.create(createWalletDTO2)).rejects.toThrow(
+        'CPF aready exists!',
+      )
+    })
   })
 })

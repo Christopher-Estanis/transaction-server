@@ -11,15 +11,15 @@ export class WalletService {
     return await this.walletRepository.findMany()
   }
 
-  async create(createWalletDTO: WalletProps) {
-    const wallet = new Wallet({
-      balance: createWalletDTO.balance,
-      cpf: createWalletDTO.cpf,
-      email: createWalletDTO.email,
-      fullName: createWalletDTO.fullName,
-      password: createWalletDTO.password,
-      type: createWalletDTO.type,
-    })
+  async create(walletProps: WalletProps) {
+    const wallet = new Wallet(walletProps)
+
+    const existsEmail = await this.walletRepository.existsEmail(wallet.email)
+    if (existsEmail) throw Error('Email aready exists!')
+
+    const existsCPF = await this.walletRepository.existsCPF(wallet.cpf)
+    if (existsCPF) throw Error('CPF aready exists!')
+
     await this.walletRepository.create(wallet)
 
     return wallet
