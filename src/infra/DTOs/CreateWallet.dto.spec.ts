@@ -1,6 +1,6 @@
 import { validate } from 'class-validator'
 
-import { CreateWalletDTO } from './createWallet.dto'
+import { CreateWalletDTO } from './CreateWallet.dto'
 
 describe('CreateWalletDTO', () => {
   it('should validate a valid DTO', async () => {
