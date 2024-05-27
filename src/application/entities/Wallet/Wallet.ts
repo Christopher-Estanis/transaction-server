@@ -73,4 +73,26 @@ export class Wallet {
   set balance(balance: number) {
     this.props.balance = balance
   }
+
+  get toObj() {
+    return {
+      id: this.id,
+      email: this.email,
+      cpf: this.cpf,
+      fullName: this.fullName,
+      password: this.password,
+      type: this.type,
+      balance: this.balance,
+    }
+  }
+
+  static toObjHeaders = [
+    'id',
+    'email',
+    'cpf',
+    'fullName',
+    'password',
+    'type',
+    'balance',
+  ]
 }

@@ -1,5 +1,5 @@
 import { InMemoryWalletRepository } from '../../../test/respositories/InMemoryWalletRepository'
-import { Wallet, WalletProps } from '../entities/Wallet/Wallet'
+import { WalletProps } from '../entities/Wallet/Wallet'
 import { WalletService } from './wallet.service'
 
 describe('WalletService', () => {
@@ -14,32 +14,41 @@ describe('WalletService', () => {
   describe('list', () => {
     it('should return an empty array when no wallets exist', async () => {
       const wallets = await walletService.list()
-      expect(wallets).toEqual([])
+      expect(wallets.wallets).toEqual([])
     })
 
     it('should return an array of wallets when wallets exist', async () => {
-      const walletData: Array<Wallet> = [
-        new Wallet({
+      const walletData: Array<WalletProps> = [
+        {
           balance: 100,
           cpf: '12345678900',
           email: 'test@example.com',
           fullName: 'John Doe',
           password: 'password123',
           type: 1,
-        }),
-        new Wallet({
+        },
+        {
           balance: 200,
           cpf: '98765432100',
           email: 'test2@example.com',
           fullName: 'Jane Doe',
           password: 'password456',
           type: 2,
-        }),
+        },
       ]
       await walletRepository.create(walletData[0])
       await walletRepository.create(walletData[1])
-      const wallets = await walletService.list()
-      expect(wallets).toEqual(walletData)
+      const walletsList = await walletService.list()
+      walletsList.wallets.forEach(
+        (wallet: WalletProps & { id: string }, index: number) => {
+          expect(wallet.balance).toBe(walletData[index].balance)
+          expect(wallet.cpf).toBe(walletData[index].cpf)
+          expect(wallet.email).toBe(walletData[index].email)
+          expect(wallet.fullName).toBe(walletData[index].fullName)
+          expect(wallet.password).toBe(walletData[index].password)
+          expect(wallet.type).toBe(walletData[index].type)
+        },
+      )
     })
   })
 
@@ -56,12 +65,12 @@ describe('WalletService', () => {
       await walletService.create(createWalletDTO)
       const wallets = await walletRepository.findMany()
       expect(wallets.length).toBe(1)
-      expect(wallets[0].balance).toBe(createWalletDTO.balance)
-      expect(wallets[0].cpf).toBe(createWalletDTO.cpf)
-      expect(wallets[0].email).toBe(createWalletDTO.email)
-      expect(wallets[0].fullName).toBe(createWalletDTO.fullName)
-      expect(wallets[0].password).toBe(createWalletDTO.password)
-      expect(wallets[0].type).toBe(createWalletDTO.type)
+      expect(wallets.list.wallets[0].balance).toBe(createWalletDTO.balance)
+      expect(wallets.list.wallets[0].cpf).toBe(createWalletDTO.cpf)
+      expect(wallets.list.wallets[0].email).toBe(createWalletDTO.email)
+      expect(wallets.list.wallets[0].fullName).toBe(createWalletDTO.fullName)
+      expect(wallets.list.wallets[0].password).toBe(createWalletDTO.password)
+      expect(wallets.list.wallets[0].type).toBe(createWalletDTO.type)
     })
 
     it('should throw an error if email already exists', async () => {

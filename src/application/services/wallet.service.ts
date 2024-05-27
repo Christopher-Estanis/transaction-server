@@ -8,7 +8,8 @@ export class WalletService {
   constructor(private readonly walletRepository: WalletRepository) {}
 
   async list() {
-    return await this.walletRepository.findMany()
+    const wallets = await this.walletRepository.findMany()
+    return wallets.list
   }
 
   async create(walletProps: WalletProps) {

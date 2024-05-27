@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 
 import { Wallet } from '../../../../application/entities/Wallet/Wallet'
+import { WalletList } from '../../../../application/entities/Wallet/WalletList'
 import { WalletRepository } from '../../../../application/repositories/WalletRepository'
 import { PrismaService } from '../prisma.service'
 
@@ -22,14 +23,13 @@ export class PrismaWalletRepository implements WalletRepository {
     })
   }
 
-  async findMany(): Promise<Array<Wallet>> {
-    console.log('test', !!this.prismaService?.wallet)
+  async findMany() {
     const wallets = await this.prismaService.wallet.findMany()
 
     if (!wallets) return null
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    return wallets?.map((wallet) => new Wallet(wallet))
+    return new WalletList(wallets)
   }
 
   async existsEmail(email: string): Promise<boolean> {
